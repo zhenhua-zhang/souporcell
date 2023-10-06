@@ -29,6 +29,7 @@ parser.add_argument("--umi_tag", required = False, default = "UB", help = "set i
 parser.add_argument("--cell_tag", required = False, default = "CB", help = "DOES NOT WORK, vartrix doesnt support this! set if your cell barcode tag is not CB")
 parser.add_argument("--ignore", required = False, default = False, type = bool, help = "set to True to ignore data error assertions")
 parser.add_argument("--aligner", required = False, default = "minimap2", help = "optionally change to HISAT2 if you have it installed, not included in singularity build")
+parser.add_argument("--minimap2_preset", required = False, default = "splice", choices = ["splice", "sr"], help = "minimap2 preset, 'splice' or 'sr', default is 'splice'")
 args = parser.parse_args()
 
 
@@ -253,11 +254,11 @@ def remap(args, region_fastqs, all_fastqs):
                     fasta_base,
                     "-S", output], stderr =minierr)
                 else:
-                    cmd = ["minimap2", "-ax", "splice", "-t", str(args.threads), "-G50k", "-k", "21",
+                    cmd = ["minimap2", "-ax", args.minimap2_preset, "-t", str(args.threads), "-G50k", "-k", "21",
                         "-w", "11", "--sr", "-A2", "-B8", "-O12,32", "-E2,1", "-r200", "-p.5", "-N20", "-f1000,5000",
                         "-n2", "-m20", "-s40", "-g2000", "-2K50m", "--secondary=no", args.fasta, args.out_dir + "/tmp.fq"]
                     minierr.write(" ".join(cmd)+"\n")
-                    subprocess.check_call(["minimap2", "-ax", "splice", "-t", str(args.threads), "-G50k", "-k", "21", 
+                    subprocess.check_call(["minimap2", "-ax", args.minimap2_preset, "-t", str(args.threads), "-G50k", "-k", "21", 
                         "-w", "11", "--sr", "-A2", "-B8", "-O12,32", "-E2,1", "-r200", "-p.5", "-N20", "-f1000,5000",
                         "-n2", "-m20", "-s40", "-g2000", "-2K50m", "--secondary=no", args.fasta, args.out_dir + "/tmp.fq"], 
                         stdout = samfile, stderr = minierr)

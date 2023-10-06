@@ -52,7 +52,8 @@ From: ubuntu:18.04
     rustup default stable
     apt-get -y install git
     cd /opt
-    git clone --recursive https://github.com/wheaton5/souporcell.git
+    # git clone --recursive https://github.com/wheaton5/souporcell.git
+    git clone --recursive https://github.com/zhenhua-zhang/souporcell.git
     cd souporcell/troublet
     cargo build --release
     cd /opt/souporcell/souporcell
