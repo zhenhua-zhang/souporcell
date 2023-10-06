@@ -345,4 +345,11 @@ consensus.py -c clusters.tsv -a alt.mtx -r ref.mtx --soup_out soup.txt -v <freeb
 ```
 
 
+## Potential issues
 
+1. `tar: Cannot change ownership to uid xx` when using singularity with `--fake-root`
+
+When building the image from scratch using --fake-root option of singularity, the untar step will raise issues as the above.
+It is due `tar` thinks it is root. The solution is to flag `--no-same-owner` when untar the files.
+Check [commit](https://github.com/wheaton5/souporcell/commit/e016eeb256d2fd80b4d45a3a1bcb6a4f3f02851b) and 
+[discussion](https://superuser.com/questions/1435437/how-to-get-around-this-error-when-untarring-an-archive-tar-cannot-change-owner)
